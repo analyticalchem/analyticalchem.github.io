@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>analyticalchem Projects</title>
-  <meta name="description" content="Interactive chemistry teaching tools and other projects by analyticalchem.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='13' width='8' height='6' rx='1' fill='%231baf7a'/%3E%3Crect x='12' y='13' width='8' height='6' rx='1' fill='%23eb6834'/%3E%3Crect x='22' y='13' width='8' height='6' rx='1' fill='%232a78d6'/%3E%3C/svg%3E">
+  <meta name="description" content="Open any of analyticalchem's interactive chemistry teaching tools and other projects.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='13' width='8' height='6' rx='1' fill='%23149a6a'/%3E%3Crect x='12' y='13' width='8' height='6' rx='1' fill='%23eb6834'/%3E%3Crect x='22' y='13' width='8' height='6' rx='1' fill='%232a78d6'/%3E%3C/svg%3E">
   <style>
-    /* ---------- Tokens (shared with Van Deemter Explorer) ---------- */
+    /* ---------- Tokens ---------- */
 
     :root {
       color-scheme: light;
@@ -20,15 +20,34 @@
       --grid: #e1e0d9;
       --axis: #c3c2b7;
       --border: rgba(11, 11, 11, 0.10);
-      --accent: #2a78d6;
+      --border-strong: var(--text-muted);      /* boundaries that identify a control (3:1) */
+      --accent: #2670cc;                       /* white text 4.9:1 */
       --accent-ink: #ffffff;
-      --series-a: #1baf7a;
-      --series-b: #eb6834;
-      --series-c: #2a78d6;
-      --piano-white: #ffffff;
-      --piano-black: #2b2a28;
+
+      --series-a: #149a6a;                     /* 3.5:1 on surface */
+      --series-b: #eb6834;                     /* 3.1:1 */
+      --series-c: #2a78d6;                     /* 4.3:1 */
+      --series-d: #4a3aa7;                     /* 8.3:1 */
+
+      --status-good: #0ca30c;
+      --status-warning: #fab219;               /* graphics only, never text */
+      --status-critical: #d03b3b;
+      --success-text: #006300;
+      --critical-text: #d03b3b;
+
+      --chart-font-small: 11px;                /* drawn text and line sizes */
+      --chart-font: 12px;
+      --chart-line: 2px;
+      --chart-line-total: 2.5px;
+      --chart-marker: 5px;
+      --chart-halo: 4px;
+
       --radius: 12px;
       --font: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+      /* Card-graphic keyboard (decorative, aria-hidden) */
+      --key-white: #ffffff;
+      --key-black: #2b2a28;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -44,11 +63,15 @@
         --axis: #45443f;
         --border: rgba(255, 255, 255, 0.10);
         --accent: #3987e5;
+        --accent-ink: #0b0b0b;                 /* dark ink on the brighter accent: 5.4:1 */
         --series-a: #199e70;
         --series-b: #d95926;
         --series-c: #3987e5;
-        --piano-white: #4a4944;
-        --piano-black: #0d0d0d;
+        --series-d: #9085e9;
+        --success-text: #0ca30c;
+        --critical-text: #ef6a63;
+        --key-white: #4a4944;
+        --key-black: #0d0d0d;
       }
     }
 
@@ -64,12 +87,20 @@
       --axis: #45443f;
       --border: rgba(255, 255, 255, 0.10);
       --accent: #3987e5;
+      --accent-ink: #0b0b0b;
       --series-a: #199e70;
       --series-b: #d95926;
       --series-c: #3987e5;
-      --piano-white: #4a4944;
-      --piano-black: #0d0d0d;
+      --series-d: #9085e9;
+      --success-text: #0ca30c;
+      --critical-text: #ef6a63;
+      --key-white: #4a4944;
+      --key-black: #0d0d0d;
     }
+
+    /* ---------- Series keys ---------- */
+
+    .key { display: block; width: 28px; height: 4px; border-radius: 2px; background: var(--key); }
 
     /* ---------- Base ---------- */
 
@@ -81,7 +112,9 @@
       margin: 0;
       background: var(--page);
       color: var(--text-primary);
-      font: 15px/1.5 var(--font);
+      font-family: var(--font);
+      font-size: 0.9375rem;
+      line-height: 1.5;
     }
 
     h1, h2, h3 { line-height: 1.2; margin: 0; }
@@ -89,49 +122,17 @@
     h2 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.005em; }
     h3 { font-size: 1.2rem; font-weight: 650; }
 
-    .site-header, main, .site-footer {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-left: 24px;
-      padding-right: 24px;
+    :is(a, button, input, select, summary, [tabindex]):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
     }
-
-    .site-header { padding-top: 28px; padding-bottom: 28px; }
-
-    .title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
+    .skip-link {
+      position: absolute; left: 16px; top: -100px; padding: 8px 12px;
+      background: var(--accent); color: var(--accent-ink); border-radius: 8px; font-weight: 600;
     }
-
-    .eyebrow {
-      margin: 0 0 6px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-
-    .title-rule { display: flex; gap: 4px; width: 260px; max-width: 100%; margin-top: 12px; }
-    .title-rule span { flex: 1; height: 5px; border-radius: 1px; background: var(--series-a); }
-    .title-rule span:nth-child(2) { background: var(--series-b); }
-    .title-rule span:nth-child(3) { background: var(--series-c); }
-
-    .lede { margin: 12px 0 0; color: var(--text-secondary); max-width: 62ch; }
-
-    main { display: grid; gap: 32px; }
-
-    .group h2 { margin-bottom: 14px; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-    }
-
-    /* ---------- Buttons ---------- */
+    .skip-link:focus { top: 16px; z-index: 10; outline: 2px solid var(--text-primary); outline-offset: 2px; }
 
     .btn {
       display: inline-block;
@@ -149,16 +150,62 @@
     .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
     .btn.ghost { background: transparent; font-weight: 500; font-size: 0.85rem; color: var(--text-secondary); white-space: nowrap; }
 
-    .btn:focus-visible, .card h3 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    /* ---------- Header ---------- */
 
-    /* ---------- Project cards ---------- */
+    .site-header, main, .site-footer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .site-header { padding-top: 28px; padding-bottom: 28px; }
+
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    /* The 320px basis lets the buttons drop below the title on a phone instead of squeezing it. */
+    .title-row > div:first-child { flex: 1 1 320px; min-width: 0; }
+    .header-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .title-rule { display: flex; gap: 4px; width: 260px; max-width: 100%; margin-top: 12px; }
+    .title-rule span { flex: 1; height: 5px; border-radius: 1px; background: var(--series-a); }
+    .title-rule span:nth-child(2) { background: var(--series-b); }
+    .title-rule span:nth-child(3) { background: var(--series-c); }
+
+    .lede { margin: 12px 0 0; color: var(--text-secondary); max-width: 62ch; }
+
+    /* ---------- Cards ---------- */
+
+    main { display: grid; gap: 32px; }
+
+    .group h2 { margin-bottom: 14px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
 
     .card {
       position: relative;
       display: flex;
       flex-direction: column;
       min-width: 0;
-      padding: 18px 20px 20px;
+      padding: 18px 20px;
       background: var(--surface);
       border: 2px solid var(--text-muted);
       border-radius: var(--radius);
@@ -166,13 +213,14 @@
     }
     .card:hover { border-color: var(--accent); transform: translateY(-2px); }
 
-    .card .eyebrow { margin-bottom: 4px; font-size: 0.72rem; }
+    .card .key { margin-bottom: 12px; }
+    .card .eyebrow { margin-bottom: 4px; }
 
     .card h3 a { color: inherit; text-decoration: none; }
     /* Stretch the title link over the whole card, so any click opens the project. */
     .card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
 
-    .card p.desc { flex: 1; margin: 8px 0 18px; color: var(--text-secondary); font-size: 0.92rem; }
+    .card .desc { flex: 1; margin: 8px 0 18px; color: var(--text-secondary); font-size: 0.92rem; }
 
     .card-actions {
       display: flex;
@@ -185,24 +233,28 @@
     /* Keeps the Source link clickable above the stretched title link. */
     .card-actions a { position: relative; z-index: 1; }
 
-    /* ---------- Card graphics ---------- */
+    /* ---------- Visuals (card graphics, decorative) ---------- */
 
     .art {
       margin-bottom: 16px;
       padding: 8px;
-      background: var(--page);
+      background: var(--surface);
       border: 1px solid var(--grid);
       border-radius: 8px;
     }
-    .art svg { display: block; width: 100%; height: auto; }
+    /* overflow: visible keeps descenders on bottom-edge labels from being clipped. */
+    .art svg { display: block; width: 100%; height: auto; overflow: visible; }
 
-    .art .axis { fill: none; stroke: var(--axis); stroke-width: 1.5; }
-    .art .neutral { stroke: var(--grid); stroke-width: 1.2; stroke-dasharray: 3 3; }
-    .art .guide { stroke: var(--text-muted); stroke-width: 1.2; stroke-dasharray: 4 3; }
-    .art .label { fill: var(--text-muted); font: 600 10px var(--font); }
-    .art .formula { fill: var(--text-primary); font: 700 11px var(--font); }
-    .art .curve { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-    .art .curve.thin { stroke-width: 2.2; }
+    .art .axis { fill: none; stroke: var(--axis); stroke-width: calc(var(--chart-line) * 0.75); }
+    .art .neutral { stroke: var(--grid); stroke-width: calc(var(--chart-line) * 0.6); stroke-dasharray: 3 3; }
+    .art .guide { stroke: var(--text-muted); stroke-width: calc(var(--chart-line) * 0.6); stroke-dasharray: 4 3; }
+    .art .label, .art .formula {
+      paint-order: stroke; stroke: var(--surface); stroke-width: var(--chart-halo); stroke-linejoin: round;
+    }
+    .art .label { fill: var(--text-muted); font: 600 var(--chart-font-small) var(--font); }
+    .art .formula { fill: var(--text-primary); font: 700 var(--chart-font) var(--font); }
+    .art .curve { fill: none; stroke-width: var(--chart-line-total); stroke-linecap: round; stroke-linejoin: round; }
+    .art .curve.thin { stroke-width: var(--chart-line); }
     .art .a { stroke: var(--series-a); }
     .art .b { stroke: var(--series-b); }
     .art .c { stroke: var(--series-c); }
@@ -211,19 +263,19 @@
     .art .tc { fill: var(--series-c); }
     .art .total { stroke: var(--text-primary); }
     .art .buffer { fill: var(--series-a); opacity: 0.1; }
-    .art .dot { fill: var(--text-primary); stroke: var(--page); stroke-width: 2; }
-    .art .ring { fill: var(--page); stroke: var(--text-primary); stroke-width: 2; }
+    .art .dot { fill: var(--text-primary); stroke: var(--surface); stroke-width: 2; r: var(--chart-marker); }
+    .art .ring { fill: var(--surface); stroke: var(--text-primary); stroke-width: 2; r: var(--chart-marker); }
 
-    .art .wkey { fill: var(--piano-white); stroke: var(--axis); stroke-width: 1.2; }
-    .art .wkey.on { fill: color-mix(in srgb, var(--series-c) 30%, var(--piano-white)); }
-    .art .bkey { fill: var(--piano-black); }
-    .art .pill { fill: var(--surface); stroke: var(--axis); stroke-width: 1.2; }
-    .art .pill.on { fill: var(--series-c); stroke: none; }
-    .art .pill-text { fill: var(--text-secondary); font: 700 11px var(--font); text-anchor: middle; dominant-baseline: central; }
-    .art .pill-text.on { fill: #ffffff; }
-    .art .arrow { fill: none; stroke: var(--text-muted); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .art .wkey { fill: var(--key-white); stroke: var(--axis); stroke-width: calc(var(--chart-line) * 0.6); }
+    .art .wkey.on { fill: color-mix(in srgb, var(--series-c) 30%, var(--key-white)); }
+    .art .bkey { fill: var(--key-black); }
+    .art .pill { fill: var(--surface); stroke: var(--axis); stroke-width: calc(var(--chart-line) * 0.6); }
+    .art .pill.on { fill: var(--accent); stroke: none; }
+    .art .pill-text { fill: var(--text-secondary); font: 700 var(--chart-font-small) var(--font); text-anchor: middle; dominant-baseline: central; }
+    .art .pill-text.on { fill: var(--accent-ink); }
+    .art .arrow { fill: none; stroke: var(--text-muted); stroke-width: calc(var(--chart-line) * 0.75); stroke-linecap: round; stroke-linejoin: round; }
 
-    /* ---------- Footer ---------- */
+    /* ---------- Notes and footer ---------- */
 
     .site-footer { padding-top: 36px; padding-bottom: 32px; font-size: 0.8rem; color: var(--text-muted); }
     .site-footer a { color: var(--text-secondary); }
@@ -234,239 +286,356 @@
       .site-header, main, .site-footer { padding-left: 16px; padding-right: 16px; }
       h1 { font-size: 2rem; }
       .title-rule { width: 200px; }
-      .card { padding: 14px 14px 16px; }
+      .card { padding: 14px; }
     }
+
+    /* ---------- Reduced motion ---------- */
 
     @media (prefers-reduced-motion: reduce) {
       .card { transition: none; }
       .card:hover { transform: none; }
     }
+
+    /* ---------- Presentation mode ---------- */
+
+    html[data-present] .eyebrow, html[data-present] .lede, html[data-present] .hint,
+    html[data-present] .notes, html[data-present] .site-footer { display: none; }
+    .present-hint { display: none; }
+    html[data-present] .present-hint { display: block; margin: 12px 0 0; color: var(--text-secondary); }
+
+    @media (min-width: 900px) {
+      html[data-present] { font-size: 125%; }
+      html[data-present] body { font-size: 1rem; }
+      html[data-present] .site-header, html[data-present] main { max-width: none; padding-left: 32px; padding-right: 32px; }
+      html[data-present] main { gap: 20px; }
+      html[data-present] h1 { font-size: 2.8rem; }
+      html[data-present] h2, html[data-present] .notes summary { font-size: 1.5rem; }
+      html[data-present] .pill-sym { font-size: 1.5rem; }
+      html[data-present] .legend, html[data-present] .live, html[data-present] .control-sub,
+      html[data-present] .tile-sub, html[data-present] .card-sub { font-size: 1.05rem; }
+      html[data-present] .chip { padding: 6px 16px; font-size: 1rem; }
+      html[data-present] input[type="range"] { height: 36px; }
+      html[data-present] .check input, html[data-present] .control .toggle input { width: 24px; height: 24px; }
+      html[data-present] .btn { padding: 12px 24px; }
+      html[data-present] .visual { height: calc(var(--h) * 1.5); }
+      html[data-present] .tooltip { font-size: 1rem; min-width: 220px; }
+      html[data-present] :is(a, button, input, select, summary, [tabindex]):focus-visible { outline-width: 3px; outline-offset: 3px; }
+
+      html[data-present] {
+        --chart-font-small: 15px; --chart-font: 16px; --chart-line: 3px; --chart-line-total: 3.5px;
+        --chart-marker: 7px; --chart-halo: 5px;
+        --text-secondary: #3a3936; --text-muted: #55534f; --axis: #7f7d76; --grid: #cfcdc4;
+        --series-a: #0c8259; --series-b: #bf4a1d; --series-c: #1f66c4;
+        --critical-text: #a52a2a;
+      }
+    }
+
+    @media (min-width: 900px) and (prefers-color-scheme: dark) {
+      html[data-present]:not([data-theme="light"]) {
+        --text-secondary: #d6d5cb; --text-muted: #b3b1a7; --axis: #8a8880; --grid: #3a3a37;
+        --series-a: #22b07f; --series-b: #e8672f; --series-c: #4a93ec; --series-d: #a89ff0;
+        --critical-text: #f28b85; --success-text: #3dbb3d;
+      }
+    }
+    @media (min-width: 900px) {
+      html[data-present][data-theme="dark"] {
+        --text-secondary: #d6d5cb; --text-muted: #b3b1a7; --axis: #8a8880; --grid: #3a3a37;
+        --series-a: #22b07f; --series-b: #e8672f; --series-c: #4a93ec; --series-d: #a89ff0;
+        --critical-text: #f28b85; --success-text: #3dbb3d;
+      }
+    }
   </style>
   <script>
     // Apply a saved theme before the page draws, so it doesn't flash.
-    try {
-      var saved = localStorage.getItem('links-theme');
-      if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
-    } catch (e) { /* storage unavailable */ }
+    (function () {
+      try {
+        var saved = localStorage.getItem('links-theme');
+        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+      } catch (e) { /* storage unavailable */ }
+    })();
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="title-row">
       <div>
-        <p class="eyebrow">analyticalchem · Interactive</p>
-        <h1>Projects</h1>
+        <p class="eyebrow">Teaching Tools · Interactive</p>
+        <h1>analyticalchem Projects</h1>
         <div class="title-rule" aria-hidden="true"><span></span><span></span><span></span></div>
         <p class="lede">Interactive teaching tools for analytical chemistry, plus a few other projects.</p>
+        <p class="present-hint">Alt + Shift + P toggles · Esc exits</p>
       </div>
-      <button id="theme" class="btn ghost" type="button" title="Switch between automatic, light and dark colors">Theme: auto</button>
+      <div class="header-actions">
+        <button id="theme" class="btn ghost" type="button" title="Switch between automatic, light and dark colors">Theme: auto</button>
+        <button id="present" class="btn ghost" type="button" aria-pressed="false" title="Larger text and controls for projecting. Escape exits.">Present</button>
+      </div>
     </div>
   </header>
 
-  <main id="groups"></main>
+  <main id="main"></main>
 
   <footer class="site-footer">
-    <p>analyticalchem · source for every project is on <a href="https://github.com/analyticalchem">GitHub</a>.</p>
+    <p>analyticalchem Projects, a hub for interactive teaching tools. Source for every project is on <a href="https://github.com/analyticalchem">GitHub</a>.</p>
   </footer>
 
+  <p id="present-status" class="visually-hidden" role="status"></p>
+
   <script>
-    // ── Edit this list to add, remove, or regroup links ──
-    // Groups appear in the order they first show up here.
-    // "topic" is the small line above each title.
-    // "art" picks a graphic from the ART list further down (leave it out for none).
-    var links = [
-      {
-        group: "Chemistry",
-        art: "titration",
-        topic: "Acid–Base Equilibria",
-        title: "Weak Titration Explorer",
-        url: "https://analyticalchem.github.io/weaktitration/",
-        source: "https://github.com/analyticalchem/weaktitration",
-        desc: "Drag along a titration curve to watch pH and species fractions change at each stage."
-      },
-      {
-        group: "Chemistry",
-        art: "vandeemter",
-        topic: "Liquid Chromatography",
-        title: "Van Deemter Explorer",
-        url: "https://analyticalchem.github.io/van-deemter-explorer/",
-        source: "https://github.com/analyticalchem/van-deemter-explorer",
-        desc: "See how flow rate, temperature, particle size and mass transfer shape plate height in liquid chromatography."
-      },
-      {
-        group: "Chemistry",
-        art: "grating",
-        topic: "Optical Spectroscopy",
-        title: "Diffraction Grating Explorer",
-        url: "https://analyticalchem.github.io/diffraction-grating-explorer/",
-        source: "https://github.com/analyticalchem/diffraction-grating-explorer",
-        desc: "See where laser and white-light orders leave a grating, and turn it like a monochromator to select wavelengths."
-      },
-      {
-        group: "Other Projects",
-        art: "piano",
-        topic: "Music Theory",
-        title: "Chord Progression Lab",
-        url: "https://analyticalchem.github.io/chord-progression-lab/",
-        source: "https://github.com/analyticalchem/chord-progression-lab",
-        desc: "Build chord progressions in any key and hear them on piano, with harmonic function and the circle of fifths."
-      }
-    ];
+    (function () {
+      'use strict';
 
-    // ── Card graphics ──
-    // Colours come from the page's CSS, so they follow the light/dark theme.
-    var ART = {
-      // Weak acid (Ka 1.8e-5) titrated with strong base: buffer region shaded,
-      // ring at the half-equivalence point (pH = pKa), dot at the equivalence point.
-      titration:
-        '<svg viewBox="0 0 320 146">' +
-          '<rect class="buffer" x="49" y="16" width="120" height="112"/>' +
-          '<line class="neutral" x1="34" y1="74" x2="304" y2="74"/>' +
-          '<path class="axis" d="M34 16V128H304"/>' +
-          '<line class="guide" x1="184" y1="60.7" x2="184" y2="128"/>' +
-          '<path class="curve a" d="M34,105.8 L37,103.4 L41.5,101 L49,98.7 L56.5,97.2 L64,96 L79,94.2 L94,92.8 L109,91.4 L124,90 L139,88.6 L154,86.8 L161.5,85.6 L169,84 L173.5,82.7 L178,80.7 L181,78.4 L182.5,76 L183.2,73.7 L184,60.7 L184.7,47.8 L185.5,45.5 L187,43.2 L190,40.9 L194.5,39.1 L199,37.9 L206.5,36.6 L214,35.7 L229,34.5 L244,33.7 L259,33.1 L274,32.6 L289,32.2"/>' +
-          '<circle class="ring" cx="109" cy="91.4" r="4.5"/>' +
-          '<circle class="dot" cx="184" cy="60.7" r="5"/>' +
-          '<text class="label" x="28" y="24" text-anchor="end">pH</text>' +
-          '<text class="label" x="28" y="77" text-anchor="end">7</text>' +
-          '<text class="label" x="109" y="121" text-anchor="middle">buffer</text>' +
-          '<text class="label" x="192" y="66">equivalence</text>' +
-          '<text class="label" x="304" y="142" text-anchor="end">base added</text>' +
-        '</svg>',
+      // ── Edit this list to add, remove, or regroup links ──
+      // Groups appear in the order they first show up here.
+      // "topic" is the small line above each title.
+      // "art" picks a graphic from the ART list further down (leave it out for none).
+      var links = [
+        {
+          group: "Chemistry",
+          art: "titration",
+          topic: "Acid–Base Equilibria",
+          title: "Weak Titration Explorer",
+          url: "https://analyticalchem.github.io/weaktitration/",
+          source: "https://github.com/analyticalchem/weaktitration",
+          desc: "Drag along a titration curve to watch pH and species fractions change at each stage."
+        },
+        {
+          group: "Chemistry",
+          art: "vandeemter",
+          topic: "Liquid Chromatography",
+          title: "Van Deemter Explorer",
+          url: "https://analyticalchem.github.io/van-deemter-explorer/",
+          source: "https://github.com/analyticalchem/van-deemter-explorer",
+          desc: "See how flow rate, temperature, particle size and mass transfer shape plate height in liquid chromatography."
+        },
+        {
+          group: "Chemistry",
+          art: "grating",
+          topic: "Optical Spectroscopy",
+          title: "Diffraction Grating Explorer",
+          url: "https://analyticalchem.github.io/diffraction-grating-explorer/",
+          source: "https://github.com/analyticalchem/diffraction-grating-explorer",
+          desc: "See where laser and white-light orders leave a grating, and turn it like a monochromator to select wavelengths."
+        },
+        {
+          group: "Other Projects",
+          art: "piano",
+          topic: "Music Theory",
+          title: "Chord Progression Lab",
+          url: "https://analyticalchem.github.io/chord-progression-lab/",
+          source: "https://github.com/analyticalchem/chord-progression-lab",
+          desc: "Build chord progressions in any key and hear them on piano, with harmonic function and the circle of fifths."
+        }
+      ];
 
-      // H = A + B/u + C·u with the three terms in the Van Deemter Explorer's colours
-      // and a ring at the optimum velocity.
-      vandeemter:
-        '<svg viewBox="0 0 320 146">' +
-          '<path class="axis" d="M34 16V128H304"/>' +
-          '<line class="guide" x1="122" y1="78.2" x2="122" y2="128"/>' +
-          '<line class="curve thin a" x1="51.6" y1="111.4" x2="298" y2="111.4"/>' +
-          '<path class="curve thin b" d="M51.6,44.9 L53.8,54.2 L56,61.5 L60.4,72.6 L64.8,80.5 L69.2,86.5 L73.6,91.1 L78,94.8 L86.8,100.3 L95.6,104.3 L104.4,107.2 L113.2,109.5 L122,111.4 L135.2,113.6 L148.4,115.2 L166,116.9 L188,118.5 L210,119.7 L232,120.6 L254,121.4 L276,122 L298,122.5"/>' +
-          '<line class="curve thin c" x1="34" y1="128" x2="298" y2="78.2"/>' +
-          '<path class="curve total" d="M51.6,25 L53.8,33.8 L56,40.8 L60.4,51 L64.8,58.1 L69.2,63.2 L73.6,67 L78,69.8 L86.8,73.7 L95.6,76 L104.4,77.3 L113.2,78 L122,78.2 L135.2,77.8 L148.4,77 L166,75.4 L188,72.8 L210,69.8 L232,66.6 L254,63.2 L276,59.7 L298,56"/>' +
-          '<circle class="ring" cx="122" cy="78.2" r="4.5"/>' +
-          '<text class="formula" x="304" y="26" text-anchor="end">H = <tspan class="ta">A</tspan> + <tspan class="tb">B/u</tspan> + <tspan class="tc">C·u</tspan></text>' +
-          '<text class="label" x="28" y="24" text-anchor="end">H</text>' +
-          '<text class="label" x="304" y="142" text-anchor="end">u</text>' +
-        '</svg>',
+      // ── Card graphics ──
+      // Decorative: the card title and description carry the meaning. Colours and line,
+      // marker and text sizes come from the CSS tokens, so they follow the theme and
+      // presentation mode.
+      var ART = {
+        // Weak acid (Ka 1.8e-5) titrated with strong base: buffer region shaded,
+        // ring at the half-equivalence point (pH = pKa), dot at the equivalence point.
+        titration:
+          '<svg viewBox="0 0 320 146">' +
+            '<rect class="buffer" x="49" y="16" width="120" height="112"/>' +
+            '<line class="neutral" x1="34" y1="74" x2="304" y2="74"/>' +
+            '<path class="axis" d="M34 16V128H304"/>' +
+            '<line class="guide" x1="184" y1="60.7" x2="184" y2="128"/>' +
+            '<path class="curve a" d="M34,105.8 L37,103.4 L41.5,101 L49,98.7 L56.5,97.2 L64,96 L79,94.2 L94,92.8 L109,91.4 L124,90 L139,88.6 L154,86.8 L161.5,85.6 L169,84 L173.5,82.7 L178,80.7 L181,78.4 L182.5,76 L183.2,73.7 L184,60.7 L184.7,47.8 L185.5,45.5 L187,43.2 L190,40.9 L194.5,39.1 L199,37.9 L206.5,36.6 L214,35.7 L229,34.5 L244,33.7 L259,33.1 L274,32.6 L289,32.2"/>' +
+            '<circle class="ring" cx="109" cy="91.4" r="5"/>' +
+            '<circle class="dot" cx="184" cy="60.7" r="5"/>' +
+            '<text class="label" x="28" y="24" text-anchor="end">pH</text>' +
+            '<text class="label" x="28" y="77" text-anchor="end">7</text>' +
+            '<text class="label" x="109" y="121" text-anchor="middle">buffer</text>' +
+            '<text class="label" x="192" y="66">equivalence</text>' +
+            '<text class="label" x="304" y="142" text-anchor="end">base added</text>' +
+          '</svg>',
 
-      // Reflection grating (1200 /mm) with a beam arriving at θ = 40°: the 0th order mirrors it,
-      // and the 1st order splits blue, green and red at −6.3°, −0.2° and +6.7° from the normal.
-      grating: (function () {
-        var s = '<svg viewBox="0 0 320 146">';
-        s += '<path class="axis" d="';
-        for (var x = 60; x <= 266; x += 8) s += 'M' + x + ' 127l-6 7';
-        s += '"/>';
-        s += '<line class="curve total" x1="50" y1="124" x2="270" y2="124"/>';
-        s += '<line class="curve thin total" x1="95.7" y1="47.4" x2="160" y2="124"/>';
-        s += '<path class="arrow" d="M121.5 85.8L131.8 90.3L129.1 79.4"/>';
-        s += '<line class="curve thin total" x1="160" y1="124" x2="224.3" y2="47.4"/>';
-        s += '<line class="curve thin c" x1="160" y1="124" x2="171" y2="24.6"/>';
-        s += '<line class="curve thin a" x1="160" y1="124" x2="160.3" y2="24"/>';
-        s += '<line class="curve thin b" x1="160" y1="124" x2="148.3" y2="24.7"/>';
-        s += '<text class="formula" x="304" y="16" text-anchor="end">mλ = d(sin θ + sin φ)</text>';
-        s += '<text class="label" x="89" y="50" text-anchor="end">incident</text>';
-        s += '<text class="label" x="231" y="50">0th order</text>';
-        s += '<text class="label" x="143" y="27" text-anchor="end">1st order</text>';
-        s += '<text class="label" x="270" y="144" text-anchor="end">grating</text>';
-        return s + '</svg>';
-      })(),
+        // H = A + B/u + C·u with the three terms in the Van Deemter Explorer's colours
+        // and a ring at the optimum velocity.
+        vandeemter:
+          '<svg viewBox="0 0 320 146">' +
+            '<path class="axis" d="M34 16V128H304"/>' +
+            '<line class="guide" x1="122" y1="78.2" x2="122" y2="128"/>' +
+            '<line class="curve thin a" x1="51.6" y1="111.4" x2="298" y2="111.4"/>' +
+            '<path class="curve thin b" d="M51.6,44.9 L53.8,54.2 L56,61.5 L60.4,72.6 L64.8,80.5 L69.2,86.5 L73.6,91.1 L78,94.8 L86.8,100.3 L95.6,104.3 L104.4,107.2 L113.2,109.5 L122,111.4 L135.2,113.6 L148.4,115.2 L166,116.9 L188,118.5 L210,119.7 L232,120.6 L254,121.4 L276,122 L298,122.5"/>' +
+            '<line class="curve thin c" x1="34" y1="128" x2="298" y2="78.2"/>' +
+            '<path class="curve total" d="M51.6,25 L53.8,33.8 L56,40.8 L60.4,51 L64.8,58.1 L69.2,63.2 L73.6,67 L78,69.8 L86.8,73.7 L95.6,76 L104.4,77.3 L113.2,78 L122,78.2 L135.2,77.8 L148.4,77 L166,75.4 L188,72.8 L210,69.8 L232,66.6 L254,63.2 L276,59.7 L298,56"/>' +
+            '<circle class="ring" cx="122" cy="78.2" r="5"/>' +
+            '<text class="formula" x="304" y="26" text-anchor="end">H = <tspan class="ta">A</tspan> + <tspan class="tb">B/u</tspan> + <tspan class="tc">C·u</tspan></text>' +
+            '<text class="label" x="28" y="24" text-anchor="end">H</text>' +
+            '<text class="label" x="304" y="142" text-anchor="end">u</text>' +
+          '</svg>',
 
-      // Two octaves of keys with the I chord (C–E–G) lit, under an I–IV–V–I progression.
-      piano: (function () {
-        var s = '<svg viewBox="0 0 320 146">';
-        var chords = ['I', 'IV', 'V', 'I'];
-        chords.forEach(function (name, i) {
-          var x = 42 + i * 64, on = i === 0 ? ' on' : '';
-          s += '<rect class="pill' + on + '" x="' + x + '" y="6" width="44" height="22" rx="11"/>';
-          s += '<text class="pill-text' + on + '" x="' + (x + 22) + '" y="17">' + name + '</text>';
-          if (i < chords.length - 1) {
-            var ax = x + 48;
-            s += '<path class="arrow" d="M' + ax + ' 17H' + (ax + 11) + 'M' + (ax + 7) + ' 13L' + (ax + 11) + ' 17L' + (ax + 7) + ' 21"/>';
+        // Reflection grating (1200 /mm) with a beam arriving at θ = 40°: the 0th order mirrors it,
+        // and the 1st order splits blue, green and red at −6.3°, −0.2° and +6.7° from the normal.
+        grating: (function () {
+          var s = '<svg viewBox="0 0 320 146">';
+          s += '<path class="axis" d="';
+          for (var x = 60; x <= 266; x += 8) s += 'M' + x + ' 127l-6 7';
+          s += '"/>';
+          s += '<line class="curve total" x1="50" y1="124" x2="270" y2="124"/>';
+          s += '<line class="curve thin total" x1="95.7" y1="47.4" x2="160" y2="124"/>';
+          s += '<path class="arrow" d="M121.5 85.8L131.8 90.3L129.1 79.4"/>';
+          s += '<line class="curve thin total" x1="160" y1="124" x2="224.3" y2="47.4"/>';
+          s += '<line class="curve thin c" x1="160" y1="124" x2="171" y2="24.6"/>';
+          s += '<line class="curve thin a" x1="160" y1="124" x2="160.3" y2="24"/>';
+          s += '<line class="curve thin b" x1="160" y1="124" x2="148.3" y2="24.7"/>';
+          s += '<text class="formula" x="304" y="16" text-anchor="end">mλ = d(sin θ + sin φ)</text>';
+          s += '<text class="label" x="89" y="50" text-anchor="end">incident</text>';
+          s += '<text class="label" x="231" y="50">0th order</text>';
+          s += '<text class="label" x="143" y="27" text-anchor="end">1st order</text>';
+          s += '<text class="label" x="270" y="144" text-anchor="end">grating</text>';
+          return s + '</svg>';
+        })(),
+
+        // Two octaves of keys with the I chord (C–E–G) lit, under an I–IV–V–I progression.
+        piano: (function () {
+          var s = '<svg viewBox="0 0 320 146">';
+          var chords = ['I', 'IV', 'V', 'I'];
+          chords.forEach(function (name, i) {
+            var x = 42 + i * 64, on = i === 0 ? ' on' : '';
+            s += '<rect class="pill' + on + '" x="' + x + '" y="6" width="44" height="22" rx="11"/>';
+            s += '<text class="pill-text' + on + '" x="' + (x + 22) + '" y="17">' + name + '</text>';
+            if (i < chords.length - 1) {
+              var ax = x + 48;
+              s += '<path class="arrow" d="M' + ax + ' 17H' + (ax + 11) + 'M' + (ax + 7) + ' 13L' + (ax + 11) + ' 17L' + (ax + 7) + ' 21"/>';
+            }
+          });
+          var lit = [0, 2, 4];                       // C, E, G
+          for (var i = 0; i < 14; i++) {
+            var on = lit.indexOf(i) !== -1 ? ' on' : '';
+            s += '<rect class="wkey' + on + '" x="' + (20 + i * 20) + '" y="40" width="20" height="100" rx="3"/>';
           }
-        });
-        var lit = [0, 2, 4];                       // C, E, G
-        for (var i = 0; i < 14; i++) {
-          var on = lit.indexOf(i) !== -1 ? ' on' : '';
-          s += '<rect class="wkey' + on + '" x="' + (20 + i * 20) + '" y="40" width="20" height="100" rx="3"/>';
-        }
-        [0, 1, 3, 4, 5, 7, 8, 10, 11, 12].forEach(function (i) {
-          s += '<rect class="bkey" x="' + (34 + i * 20) + '" y="40" width="12" height="60" rx="2"/>';
-        });
-        lit.forEach(function (i) {
-          s += '<circle class="tc" cx="' + (30 + i * 20) + '" cy="126" r="4.5"/>';
-        });
-        return s + '</svg>';
-      })()
-    };
+          [0, 1, 3, 4, 5, 7, 8, 10, 11, 12].forEach(function (i) {
+            s += '<rect class="bkey" x="' + (34 + i * 20) + '" y="40" width="12" height="60" rx="2"/>';
+          });
+          lit.forEach(function (i) {
+            s += '<circle class="tc" cx="' + (30 + i * 20) + '" cy="126" r="4.5"/>';
+          });
+          return s + '</svg>';
+        })()
+      };
 
-    function el(tag, className, text) {
-      var node = document.createElement(tag);
-      if (className) node.className = className;
-      if (text) node.textContent = text;
-      return node;
-    }
+      // Each card's key bar takes the next series colour.
+      var KEYS = ['var(--series-a)', 'var(--series-b)', 'var(--series-c)', 'var(--series-d)'];
 
-    var groups = new Map();
-    links.forEach(function (link) {
-      if (!groups.has(link.group)) groups.set(link.group, []);
-      groups.get(link.group).push(link);
-    });
+      function el(tag, className, text) {
+        var node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text) node.textContent = text;
+        return node;
+      }
 
-    var main = document.getElementById('groups');
-    groups.forEach(function (items, name) {
-      var section = el('section', 'group');
-      section.append(el('h2', '', name));
-      var grid = el('div', 'grid');
-
-      items.forEach(function (item) {
-        var card = el('article', 'card');
-
-        var h3 = el('h3');
-        var a = el('a', '', item.title);
-        a.href = item.url;
-        h3.append(a);
-
-        var actions = el('div', 'card-actions');
-        var open = el('span', 'btn primary', 'Open');
-        open.setAttribute('aria-hidden', 'true');
-        actions.append(open);
-        if (item.source) {
-          var src = el('a', 'btn ghost', 'Source');
-          src.href = item.source;
-          src.setAttribute('aria-label', item.title + ' source code on GitHub');
-          actions.append(src);
-        }
-
-        if (item.art && ART[item.art]) {
-          var art = el('div', 'art');
-          art.setAttribute('aria-hidden', 'true');
-          art.innerHTML = ART[item.art];
-          card.append(art);
-        }
-        if (item.topic) card.append(el('p', 'eyebrow', item.topic));
-        card.append(h3, el('p', 'desc', item.desc), actions);
-        grid.append(card);
+      var groups = new Map();
+      links.forEach(function (link) {
+        if (!groups.has(link.group)) groups.set(link.group, []);
+        groups.get(link.group).push(link);
       });
 
-      section.append(grid);
-      main.append(section);
-    });
+      var main = document.getElementById('main');
+      var groupIndex = 0, cardIndex = 0;
+      groups.forEach(function (items, name) {
+        var headingId = 'group-' + (++groupIndex);
+        var section = el('section', 'group');
+        section.setAttribute('aria-labelledby', headingId);
+        var h2 = el('h2', '', name);
+        h2.id = headingId;
+        section.append(h2);
+        var grid = el('div', 'grid');
 
-    // Theme button: auto → light → dark, same as Van Deemter Explorer.
-    var themes = ['auto', 'light', 'dark'];
-    var themeBtn = document.getElementById('theme');
-    function applyTheme(name) {
-      if (name === 'auto') delete document.documentElement.dataset.theme;
-      else document.documentElement.dataset.theme = name;
-      themeBtn.textContent = 'Theme: ' + name;
-      try { localStorage.setItem('links-theme', name); } catch (e) { /* storage unavailable */ }
-    }
-    themeBtn.textContent = 'Theme: ' + (document.documentElement.dataset.theme || 'auto');
-    themeBtn.addEventListener('click', function () {
-      var cur = document.documentElement.dataset.theme || 'auto';
-      applyTheme(themes[(themes.indexOf(cur) + 1) % themes.length]);
-    });
+        items.forEach(function (item) {
+          var card = el('article', 'card');
+
+          if (item.art && ART[item.art]) {
+            var art = el('div', 'art');
+            art.setAttribute('aria-hidden', 'true');
+            art.innerHTML = ART[item.art];           // trusted constants above, not user input
+            var svg = art.querySelector('svg');
+            svg.setAttribute('aria-hidden', 'true');
+            svg.setAttribute('focusable', 'false');
+            card.append(art);
+          }
+
+          var key = el('span', 'key');
+          key.style.setProperty('--key', KEYS[cardIndex++ % KEYS.length]);
+          key.setAttribute('aria-hidden', 'true');
+          card.append(key);
+
+          if (item.topic) card.append(el('p', 'eyebrow', item.topic));
+
+          var h3 = el('h3');
+          var a = el('a', '', item.title);
+          a.href = item.url;
+          h3.append(a);
+
+          var actions = el('div', 'card-actions');
+          var open = el('span', 'btn primary', 'Open');
+          open.setAttribute('aria-hidden', 'true');
+          actions.append(open);
+          if (item.source) {
+            var src = el('a', 'btn ghost', 'Source');
+            src.href = item.source;
+            src.setAttribute('aria-label', item.title + ' source code on GitHub');
+            actions.append(src);
+          }
+
+          card.append(h3, el('p', 'desc', item.desc), actions);
+          grid.append(card);
+        });
+
+        section.append(grid);
+        main.append(section);
+      });
+
+      // Theme: auto → light → dark, stored for this page.
+      var themes = ['auto', 'light', 'dark'];
+      var themeBtn = document.getElementById('theme');
+      function applyTheme(name) {
+        if (name === 'auto') delete document.documentElement.dataset.theme;
+        else document.documentElement.dataset.theme = name;
+        themeBtn.textContent = 'Theme: ' + name;
+        try { localStorage.setItem('links-theme', name); } catch (e) { /* storage unavailable */ }
+      }
+      themeBtn.textContent = 'Theme: ' + (document.documentElement.dataset.theme || 'auto');
+      themeBtn.addEventListener('click', function () {
+        var cur = document.documentElement.dataset.theme || 'auto';
+        applyTheme(themes[(themes.indexOf(cur) + 1) % themes.length]);
+      });
+
+      // Presentation mode: same page, larger and decluttered for projecting. Not stored.
+      var presentBtn = document.getElementById('present');
+      var presentStatus = document.getElementById('present-status');
+
+      function isPresent() { return document.documentElement.hasAttribute('data-present'); }
+
+      function setPresent(on) {
+        document.documentElement.toggleAttribute('data-present', on);
+        presentBtn.setAttribute('aria-pressed', String(on));
+        presentStatus.textContent = on ? 'Presentation mode on. Press Escape to exit.' : 'Presentation mode off.';
+        var root = document.documentElement;
+        if (on && document.fullscreenEnabled && !document.fullscreenElement && root.requestFullscreen) {
+          root.requestFullscreen().catch(function () { /* refused: the mode still applies */ });
+        } else if (!on && document.fullscreenElement && document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+
+      presentBtn.addEventListener('click', function () { setPresent(!isPresent()); });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.altKey && e.shiftKey && e.code === 'KeyP') { e.preventDefault(); setPresent(!isPresent()); return; }
+        if (e.key === 'Escape' && isPresent()) setPresent(false);
+      });
+
+      document.addEventListener('fullscreenchange', function () {
+        if (!document.fullscreenElement && isPresent()) setPresent(false);
+      });
+
+      if (new URLSearchParams(location.search).get('present') === '1') setPresent(true);
+
+      window.app = { links: links, setPresent: setPresent };   // console handle for checks
+    })();
   </script>
 </body>
 </html>
