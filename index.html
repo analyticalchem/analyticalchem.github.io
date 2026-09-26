@@ -294,6 +294,15 @@
         desc: "See how flow rate, temperature, particle size and mass transfer shape plate height in liquid chromatography."
       },
       {
+        group: "Chemistry",
+        art: "grating",
+        topic: "Optical Spectroscopy",
+        title: "Diffraction Grating Explorer",
+        url: "https://analyticalchem.github.io/diffraction-grating-explorer/",
+        source: "https://github.com/analyticalchem/diffraction-grating-explorer",
+        desc: "See where laser and white-light orders leave a grating, and turn it like a monochromator to select wavelengths."
+      },
+      {
         group: "Other Projects",
         art: "piano",
         topic: "Music Theory",
@@ -340,6 +349,28 @@
           '<text class="label" x="28" y="24" text-anchor="end">H</text>' +
           '<text class="label" x="304" y="142" text-anchor="end">u</text>' +
         '</svg>',
+
+      // Reflection grating (1200 /mm) with a beam arriving at θ = 40°: the 0th order mirrors it,
+      // and the 1st order splits blue, green and red at −6.3°, −0.2° and +6.7° from the normal.
+      grating: (function () {
+        var s = '<svg viewBox="0 0 320 146">';
+        s += '<path class="axis" d="';
+        for (var x = 60; x <= 266; x += 8) s += 'M' + x + ' 127l-6 7';
+        s += '"/>';
+        s += '<line class="curve total" x1="50" y1="124" x2="270" y2="124"/>';
+        s += '<line class="curve thin total" x1="95.7" y1="47.4" x2="160" y2="124"/>';
+        s += '<path class="arrow" d="M121.5 85.8L131.8 90.3L129.1 79.4"/>';
+        s += '<line class="curve thin total" x1="160" y1="124" x2="224.3" y2="47.4"/>';
+        s += '<line class="curve thin c" x1="160" y1="124" x2="171" y2="24.6"/>';
+        s += '<line class="curve thin a" x1="160" y1="124" x2="160.3" y2="24"/>';
+        s += '<line class="curve thin b" x1="160" y1="124" x2="148.3" y2="24.7"/>';
+        s += '<text class="formula" x="304" y="16" text-anchor="end">mλ = d(sin θ + sin φ)</text>';
+        s += '<text class="label" x="89" y="50" text-anchor="end">incident</text>';
+        s += '<text class="label" x="231" y="50">0th order</text>';
+        s += '<text class="label" x="143" y="27" text-anchor="end">1st order</text>';
+        s += '<text class="label" x="270" y="144" text-anchor="end">grating</text>';
+        return s + '</svg>';
+      })(),
 
       // Two octaves of keys with the I chord (C–E–G) lit, under an I–IV–V–I progression.
       piano: (function () {
