@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>analyticalchem Projects</title>
   <meta name="description" content="Open any of analyticalchem's interactive chemistry teaching tools and other projects.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='13' width='8' height='6' rx='1' fill='%23149a6a'/%3E%3Crect x='12' y='13' width='8' height='6' rx='1' fill='%23eb6834'/%3E%3Crect x='22' y='13' width='8' height='6' rx='1' fill='%232a78d6'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20x='2'%20y='13'%20width='8'%20height='6'%20rx='1'%20fill='%23149a6a'/%3E%3Crect%20x='12'%20y='13'%20width='8'%20height='6'%20rx='1'%20fill='%23eb6834'/%3E%3Crect%20x='22'%20y='13'%20width='8'%20height='6'%20rx='1'%20fill='%232a78d6'/%3E%3C/svg%3E">
   <style>
     /* ---------- Tokens ---------- */
 
@@ -248,9 +248,8 @@
     .art .axis { fill: none; stroke: var(--axis); stroke-width: calc(var(--chart-line) * 0.75); }
     .art .neutral { stroke: var(--grid); stroke-width: calc(var(--chart-line) * 0.6); stroke-dasharray: 3 3; }
     .art .guide { stroke: var(--text-muted); stroke-width: calc(var(--chart-line) * 0.6); stroke-dasharray: 4 3; }
-    .art .label, .art .formula {
-      paint-order: stroke; stroke: var(--surface); stroke-width: var(--chart-halo); stroke-linejoin: round;
-    }
+    /* Halo; the paint-order attribute that puts it behind the letters is set in script. */
+    .art .label, .art .formula { stroke: var(--surface); stroke-width: var(--chart-halo); stroke-linejoin: round; }
     .art .label { fill: var(--text-muted); font: 600 var(--chart-font-small) var(--font); }
     .art .formula { fill: var(--text-primary); font: 700 var(--chart-font) var(--font); }
     .art .curve { fill: none; stroke-width: var(--chart-line-total); stroke-linecap: round; stroke-linejoin: round; }
@@ -263,8 +262,9 @@
     .art .tc { fill: var(--series-c); }
     .art .total { stroke: var(--text-primary); }
     .art .buffer { fill: var(--series-a); opacity: 0.1; }
-    .art .dot { fill: var(--text-primary); stroke: var(--surface); stroke-width: 2; r: var(--chart-marker); }
-    .art .ring { fill: var(--surface); stroke: var(--text-primary); stroke-width: 2; r: var(--chart-marker); }
+    /* Marker radius comes from --chart-marker, applied in script (refreshArt). */
+    .art .dot { fill: var(--text-primary); stroke: var(--surface); stroke-width: 2; }
+    .art .ring { fill: var(--surface); stroke: var(--text-primary); stroke-width: 2; }
 
     .art .wkey { fill: var(--key-white); stroke: var(--axis); stroke-width: calc(var(--chart-line) * 0.6); }
     .art .wkey.on { fill: color-mix(in srgb, var(--series-c) 30%, var(--key-white)); }
@@ -554,6 +554,7 @@
             var svg = art.querySelector('svg');
             svg.setAttribute('aria-hidden', 'true');
             svg.setAttribute('focusable', 'false');
+            art.querySelectorAll('.label, .formula').forEach(function (t) { t.setAttribute('paint-order', 'stroke'); });
             card.append(art);
           }
 
@@ -588,6 +589,18 @@
         main.append(section);
       });
 
+      // Marker radius follows --chart-marker, which grows in presentation mode.
+      function refreshArt() {
+        var r = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--chart-marker')) || 5;
+        document.querySelectorAll('.art .dot, .art .ring').forEach(function (c) { c.setAttribute('r', r); });
+      }
+      refreshArt();
+      if (window.matchMedia) {
+        // The presentation sizes apply only at 900 px and wider.
+        var wide = window.matchMedia('(min-width: 900px)');
+        if (wide.addEventListener) wide.addEventListener('change', refreshArt);
+      }
+
       // Theme: auto → light → dark, stored for this page.
       var themes = ['auto', 'light', 'dark'];
       var themeBtn = document.getElementById('theme');
@@ -613,6 +626,7 @@
         document.documentElement.toggleAttribute('data-present', on);
         presentBtn.setAttribute('aria-pressed', String(on));
         presentStatus.textContent = on ? 'Presentation mode on. Press Escape to exit.' : 'Presentation mode off.';
+        refreshArt();
         var root = document.documentElement;
         if (on && document.fullscreenEnabled && !document.fullscreenElement && root.requestFullscreen) {
           root.requestFullscreen().catch(function () { /* refused: the mode still applies */ });
