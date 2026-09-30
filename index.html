@@ -418,6 +418,17 @@
           desc: "See where laser and white-light orders leave a grating, and turn it like a monochromator to select wavelengths."
         },
         {
+          // Two linked pages: this opens part 1, Op Amp Basics; its series links lead on to the
+          // DAC/ADC Builder (https://analyticalchem.github.io/dac-adc-builder/) and back.
+          group: "Electronics",
+          art: "opampdemo",
+          topic: "Op Amps · Two Parts",
+          title: "Op Amp Demo",
+          url: "https://analyticalchem.github.io/op-amp-basics/",
+          source: "https://github.com/analyticalchem/op-amp-basics",
+          desc: "Learn how an op amp works with a water model, then build a DAC and ADCs from op amps."
+        },
+        {
           group: "Other Projects",
           art: "piano",
           topic: "Music Theory",
@@ -488,6 +499,31 @@
           s += '<text class="label" x="270" y="144" text-anchor="end">grating</text>';
           return s + '</svg>';
         })(),
+
+        // The two parts of the Op Amp Demo side by side.
+        // Left, Op Amp Basics: the open-loop transfer curve, gain 1e5 and a ±15 V supply with
+        // 1.5 V of headroom, so the output saturates at ±13.5 V once V+ − V− passes ±135 µV
+        // (x: ±400 µV across 130 px, 0 at x = 85; y: 40 px per 13.5 V, 0 at y = 76).
+        // Right, DAC/ADC Builder: both ADCs converting vi = 6.5 V with a 4-bit, 1 V-step DAC,
+        // 15.5 px per clock step: the staircase (blue) counts 0 to 7 and stops (dot); successive
+        // approximation (green, thin) tries 8, 4, 6, 7 (result 6). y: 11 px per volt, 0 V at y = 128.
+        opampdemo:
+          '<svg viewBox="0 0 320 146">' +
+            '<line class="neutral" x1="20" y1="76" x2="150" y2="76"/>' +
+            '<line class="neutral" x1="85" y1="24" x2="85" y2="128"/>' +
+            '<path class="axis" d="M20 24V128H150"/>' +
+            '<path class="curve c" d="M20,116 L63.1,116 L106.9,36 L150,36"/>' +
+            '<text class="label" x="14" y="32" text-anchor="end">vₒ</text>' +
+            '<text class="label" x="150" y="142" text-anchor="end">V₊ − V₋</text>' +
+            '<path class="axis" d="M176 24V128H306"/>' +
+            '<line class="guide" x1="176" y1="56.5" x2="306" y2="56.5"/>' +
+            '<path class="curve thin a" d="M180,128 H195.5 V40 H211 V84 H226.5 V62 H242 V51 H257.5"/>' +
+            '<path class="curve c" d="M180,128 H195.5 V117 H211 V106 H226.5 V95 H242 V84 H257.5 V73 H273 V62 H288.5 V51 H304"/>' +
+            '<circle class="dot" cx="296.25" cy="51" r="5"/>' +
+            '<text class="label" x="172" y="32" text-anchor="end">V</text>' +
+            '<text class="label" x="172" y="60" text-anchor="end">vᵢ</text>' +
+            '<text class="label" x="306" y="142" text-anchor="end">clock steps</text>' +
+          '</svg>',
 
         // Two octaves of keys with the I chord (C–E–G) lit, under an I–IV–V–I progression.
         piano: (function () {
