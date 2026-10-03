@@ -436,6 +436,15 @@
           url: "https://analyticalchem.github.io/chord-progression-lab/",
           source: "https://github.com/analyticalchem/chord-progression-lab",
           desc: "Build chord progressions in any key and hear them on piano, with harmonic function and the circle of fifths."
+        },
+        {
+          group: "Other Projects",
+          art: "weather",
+          topic: "Low Vision",
+          title: "Weather",
+          url: "https://analyticalchem.github.io/weather/",
+          source: "https://github.com/analyticalchem/weather",
+          desc: "Large, high-contrast weather with read-aloud for people with low vision."
         }
       ];
 
@@ -549,6 +558,25 @@
           lit.forEach(function (i) {
             s += '<circle class="tc" cx="' + (30 + i * 20) + '" cy="126" r="4.5"/>';
           });
+          return s + '</svg>';
+        })(),
+
+        // The Weather app's temperature chart: three days of bars running from the low to the
+        // high, using the app's sample forecast for Springfield (80/61, 74/58, 67/50 °F), between
+        // the arrows that move the chart. y = 36 + (80 − T) × 64/30, so 80° is at 36 and 50° at 100.
+        weather: (function () {
+          var days = [['Today', 80, 61], ['Tomorrow', 74, 58], ['Monday', 67, 50]];
+          var s = '<svg viewBox="0 0 320 146">';
+          function y(t) { return Math.round((36 + (80 - t) * 64 / 30) * 10) / 10; }
+          days.forEach(function (d, i) {
+            var x = 70 + i * 90, top = y(d[1]), bottom = y(d[2]);
+            s += '<rect class="tc" x="' + (x - 7) + '" y="' + top + '" width="14" height="' + (bottom - top) + '" rx="7"/>';
+            s += '<text class="formula" x="' + x + '" y="' + (top - 7) + '" text-anchor="middle">' + d[1] + '°</text>';
+            s += '<text class="formula" x="' + x + '" y="' + (bottom + 18) + '" text-anchor="middle">' + d[2] + '°</text>';
+            s += '<text class="label" x="' + x + '" y="142" text-anchor="middle">' + d[0] + '</text>';
+          });
+          s += '<path class="arrow" d="M22 58L10 70L22 82Z"/>';
+          s += '<path class="arrow" d="M298 58L310 70L298 82Z"/>';
           return s + '</svg>';
         })()
       };
