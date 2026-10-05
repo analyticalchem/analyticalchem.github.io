@@ -418,6 +418,15 @@
           desc: "See where laser and white-light orders leave a grating, and turn it like a monochromator to select wavelengths."
         },
         {
+          group: "Chemistry",
+          art: "millikan",
+          topic: "Electron Charge",
+          title: "Millikan Oil Drop Lab",
+          url: "https://analyticalchem.github.io/millikan-oil-drop-lab/",
+          source: "https://github.com/analyticalchem/millikan-oil-drop-lab",
+          desc: "Time oil drops falling and rising in a 3D Millikan apparatus to find the charge of the electron."
+        },
+        {
           // Two linked pages: this opens part 1, Op Amp Basics; its series links lead on to the
           // DAC/ADC Builder (https://analyticalchem.github.io/dac-adc-builder/) and back.
           group: "Electronics",
@@ -508,6 +517,28 @@
           s += '<text class="label" x="270" y="144" text-anchor="end">grating</text>';
           return s + '</svg>';
         })(),
+
+        // Millikan: the charges of twelve timed drops, one row each, along a charge axis running 0 to
+        // 5.5 e over 270 px; they fall on the dashed multiples of e = 1.602e-19 C, each with the 0.1 e
+        // or so of scatter that Brownian motion gives a timing.
+        millikan:
+          '<svg viewBox="0 0 320 146">' +
+            '<path class="axis" d="M34 16V128H304"/>' +
+            '<line class="guide" x1="83.1" y1="16" x2="83.1" y2="128"/>' +
+            '<line class="guide" x1="132.2" y1="16" x2="132.2" y2="128"/>' +
+            '<line class="guide" x1="181.3" y1="16" x2="181.3" y2="128"/>' +
+            '<line class="guide" x1="230.4" y1="16" x2="230.4" y2="128"/>' +
+            '<line class="guide" x1="279.5" y1="16" x2="279.5" y2="128"/>' +
+            '<circle class="dot" cx="127.5" cy="30" r="5"/><circle class="dot" cx="82.2" cy="38.2" r="5"/>' +
+            '<circle class="dot" cx="178.2" cy="46.4" r="5"/><circle class="dot" cx="131.6" cy="54.6" r="5"/>' +
+            '<circle class="dot" cx="225.2" cy="62.8" r="5"/><circle class="dot" cx="179.4" cy="71" r="5"/>' +
+            '<circle class="dot" cx="84.1" cy="79.2" r="5"/><circle class="dot" cx="278" cy="87.4" r="5"/>' +
+            '<circle class="dot" cx="133.3" cy="95.6" r="5"/><circle class="dot" cx="179.6" cy="103.8" r="5"/>' +
+            '<circle class="dot" cx="228.1" cy="112" r="5"/><circle class="dot" cx="135.3" cy="120.2" r="5"/>' +
+            '<text class="formula" x="40" y="27">q = n·e</text>' +
+            '<text class="label" x="28" y="24" text-anchor="end">drop</text>' +
+            '<text class="label" x="304" y="142" text-anchor="end">q</text>' +
+          '</svg>',
 
         // The two parts of the Op Amp Demo side by side.
         // Left, Op Amp Basics: the open-loop transfer curve, gain 1e5 and a ±15 V supply with
