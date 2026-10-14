@@ -427,6 +427,15 @@
           desc: "Time oil drops falling and rising in a 3D Millikan apparatus to find the charge of the electron."
         },
         {
+          group: "Chemistry",
+          art: "interferometer",
+          topic: "Infrared Spectroscopy",
+          title: "FTIR Interferometer Explorer",
+          url: "https://analyticalchem.github.io/interferometer/",
+          source: "https://github.com/analyticalchem/interferometer",
+          desc: "Move an FTIR's mirror to record an interferogram, then watch the Fourier transform build the spectrum."
+        },
+        {
           // Two linked pages: this opens part 1, Op Amp Basics; its series links lead on to the
           // DAC/ADC Builder (https://analyticalchem.github.io/dac-adc-builder/) and back.
           group: "Electronics",
@@ -538,6 +547,20 @@
             '<text class="formula" x="40" y="27">q = n·e</text>' +
             '<text class="label" x="28" y="24" text-anchor="end">drop</text>' +
             '<text class="label" x="304" y="142" text-anchor="end">q</text>' +
+          '</svg>',
+
+        // FTIR Interferometer Explorer: the instrument's interferogram for its broadband source
+        // (1500 K) with the holder empty, computed from that page's own model over δ = 0 to 12 µm
+        // (22.5 px per µm; y: 112 px per 100 % of the signal, 0 at y = 128). The centerburst at
+        // zero path difference, where every wavenumber is in step, settles to half the signal (dashed).
+        interferometer:
+          '<svg viewBox="0 0 320 146">' +
+            '<line class="neutral" x1="34" y1="72" x2="304" y2="72"/>' +
+            '<path class="axis" d="M34 16V128H304"/>' +
+            '<path class="curve c" d="M34,16 L36.3,16.9 L38.5,19.6 L40.8,23.8 L45.3,36.5 L58.8,85 L63.3,96.2 L65.5,99.9 L67.8,102.1 L70,103 L72.3,102.6 L74.5,101 L79,95.1 L90.3,75.4 L94.8,70 L97,68.3 L99.3,67.4 L101.5,67.1 L106,68.4 L119.5,77.1 L124,78.3 L128.5,78 L146.5,69.5 L151,68.6 L157.7,69.4 L173.5,74.7 L180.2,75 L200.5,70.1 L209.5,70.3 L227.5,73.5 L256.7,70.6 L286,72.7 L304,71.2"/>' +
+            '<text class="label" x="46" y="22">centerburst</text>' +
+            '<text class="label" x="28" y="24" text-anchor="end">I</text>' +
+            '<text class="label" x="304" y="142" text-anchor="end">path difference δ</text>' +
           '</svg>',
 
         // The two parts of the Op Amp Demo side by side.
