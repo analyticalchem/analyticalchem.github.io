@@ -265,6 +265,8 @@
     /* Marker radius comes from --chart-marker, applied in script (refreshArt). */
     .art .dot { fill: var(--text-primary); stroke: var(--surface); stroke-width: 2; }
     .art .ring { fill: var(--surface); stroke: var(--text-primary); stroke-width: 2; }
+    /* Atoms in the unit-cell graphic: fill from .ta/.tc, a surface ring separates overlaps. */
+    .art .atom { stroke: var(--surface); stroke-width: 2; }
 
     .art .wkey { fill: var(--key-white); stroke: var(--axis); stroke-width: calc(var(--chart-line) * 0.6); }
     .art .wkey.on { fill: color-mix(in srgb, var(--series-c) 30%, var(--key-white)); }
@@ -392,6 +394,15 @@
       var links = [
         {
           group: "Chemistry",
+          art: "unitcell",
+          topic: "Solid State",
+          title: "Unit Cell Explorer",
+          url: "https://analyticalchem.github.io/unit-cell-explorer/",
+          source: "https://github.com/analyticalchem/unit-cell-explorer",
+          desc: "Rotate simple, body-centered and face-centered cubic cells in 3D, build blocks, add bonds and split layers."
+        },
+        {
+          group: "Chemistry",
           art: "titration",
           topic: "Acid–Base Equilibria",
           title: "Weak Titration Explorer",
@@ -471,6 +482,29 @@
       // marker and text sizes come from the CSS tokens, so they follow the theme and
       // presentation mode.
       var ART = {
+        // Face-centered cubic cell in oblique view (front face 80 wide, depth +44/−28): hidden
+        // edges dashed, corner atoms blue and face-centre atoms green as in the explorer,
+        // drawn back to front.
+        unitcell:
+          '<svg viewBox="0 0 320 146">' +
+            '<path class="guide" d="M142 100H222M142 100V20M98 128L142 100"/>' +
+            '<circle class="atom tc" cx="142" cy="100" r="9"/>' +
+            '<circle class="atom ta" cx="182" cy="60" r="9"/>' +
+            '<circle class="atom ta" cx="120" cy="74" r="9"/>' +
+            '<circle class="atom ta" cx="160" cy="114" r="9"/>' +
+            '<path class="curve thin total" d="M98 128H178V48H98ZM98 48L142 20H222L178 48M222 20V100L178 128"/>' +
+            '<circle class="atom tc" cx="142" cy="20" r="9"/>' +
+            '<circle class="atom tc" cx="222" cy="100" r="9"/>' +
+            '<circle class="atom tc" cx="222" cy="20" r="9"/>' +
+            '<circle class="atom ta" cx="200" cy="74" r="9"/>' +
+            '<circle class="atom ta" cx="160" cy="34" r="9"/>' +
+            '<circle class="atom tc" cx="98" cy="128" r="9"/>' +
+            '<circle class="atom tc" cx="178" cy="128" r="9"/>' +
+            '<circle class="atom tc" cx="98" cy="48" r="9"/>' +
+            '<circle class="atom tc" cx="178" cy="48" r="9"/>' +
+            '<circle class="atom ta" cx="138" cy="88" r="9"/>' +
+          '</svg>',
+
         // Weak acid (Ka 1.8e-5) titrated with strong base: buffer region shaded,
         // ring at the half-equivalence point (pH = pKa), dot at the equivalence point.
         titration:
