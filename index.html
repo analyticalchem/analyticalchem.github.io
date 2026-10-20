@@ -107,6 +107,10 @@
     *, *::before, *::after { box-sizing: border-box; }
 
     html { -webkit-text-size-adjust: 100%; }
+    /* Large screens: the root steps up so text keeps pace with the wider card grid. Both need a minimum
+       height, so a wide but short window keeps the normal size. */
+    @media (min-width: 1600px) and (min-height: 900px) { html { font-size: 112.5%; } }
+    @media (min-width: 2200px) and (min-height: 1200px) { html { font-size: 125%; } }
 
     body {
       margin: 0;
@@ -152,8 +156,9 @@
 
     /* ---------- Header ---------- */
 
+    /* The page fills the window; only the lede keeps a reading measure. */
     .site-header, main, .site-footer {
-      max-width: 1200px;
+      width: 100%;
       margin: 0 auto;
       padding-left: 24px;
       padding-right: 24px;
@@ -308,7 +313,7 @@
     @media (min-width: 900px) {
       html[data-present] { font-size: 125%; }
       html[data-present] body { font-size: 1rem; }
-      html[data-present] .site-header, html[data-present] main { max-width: none; padding-left: 32px; padding-right: 32px; }
+      html[data-present] .site-header, html[data-present] main { padding-left: 32px; padding-right: 32px; }
       html[data-present] main { gap: 20px; }
       html[data-present] h1 { font-size: 2.8rem; }
       html[data-present] h2, html[data-present] .notes summary { font-size: 1.5rem; }
@@ -319,7 +324,7 @@
       html[data-present] input[type="range"] { height: 36px; }
       html[data-present] .check input, html[data-present] .control .toggle input { width: 24px; height: 24px; }
       html[data-present] .btn { padding: 12px 24px; }
-      html[data-present] .visual { height: calc(var(--h) * 1.5); }
+      html[data-present] .visual { height: min(calc(var(--h) * 1.5), 80vh); }
       html[data-present] .tooltip { font-size: 1rem; min-width: 220px; }
       html[data-present] :is(a, button, input, select, summary, [tabindex]):focus-visible { outline-width: 3px; outline-offset: 3px; }
 
@@ -336,14 +341,14 @@
       html[data-present]:not([data-theme="light"]) {
         --text-secondary: #d6d5cb; --text-muted: #b3b1a7; --axis: #8a8880; --grid: #3a3a37;
         --series-a: #22b07f; --series-b: #e8672f; --series-c: #4a93ec; --series-d: #a89ff0;
-        --critical-text: #f28b85; --success-text: #3dbb3d;
+        --critical-text: #f28b85; --success-text: #40bf40;
       }
     }
     @media (min-width: 900px) {
       html[data-present][data-theme="dark"] {
         --text-secondary: #d6d5cb; --text-muted: #b3b1a7; --axis: #8a8880; --grid: #3a3a37;
         --series-a: #22b07f; --series-b: #e8672f; --series-c: #4a93ec; --series-d: #a89ff0;
-        --critical-text: #f28b85; --success-text: #3dbb3d;
+        --critical-text: #f28b85; --success-text: #40bf40;
       }
     }
   </style>
