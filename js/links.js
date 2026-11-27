@@ -15,7 +15,6 @@
       topic: "Solid State",
       title: "Unit Cell Explorer",
       url: "https://instrumentalteaching.com/unit-cell-explorer/",
-      source: "https://github.com/analyticalchem/unit-cell-explorer",
       desc: "Rotate simple, body-centered and face-centered cubic cells in 3D, build blocks, add bonds and split layers."
     },
     {
@@ -24,7 +23,6 @@
       topic: "Acid–Base Equilibria",
       title: "Weak Titration Explorer",
       url: "https://instrumentalteaching.com/weaktitration/",
-      source: "https://github.com/analyticalchem/weaktitration",
       desc: "Drag along a titration curve to watch pH and species fractions change at each stage."
     },
     {
@@ -33,7 +31,6 @@
       topic: "Infrared Spectroscopy",
       title: "FTIR Interferometer Explorer",
       url: "https://instrumentalteaching.com/interferometer/",
-      source: "https://github.com/analyticalchem/interferometer",
       desc: "Move an FTIR's mirror to record an interferogram, then watch the Fourier transform build the spectrum."
     },
     {
@@ -42,7 +39,6 @@
       topic: "Liquid Chromatography",
       title: "Van Deemter Explorer",
       url: "https://instrumentalteaching.com/van-deemter-explorer/",
-      source: "https://github.com/analyticalchem/van-deemter-explorer",
       desc: "See how flow rate, temperature, particle size and mass transfer shape plate height in liquid chromatography."
     },
     {
@@ -51,7 +47,6 @@
       topic: "Electron Charge",
       title: "Millikan Oil Drop Lab",
       url: "https://instrumentalteaching.com/millikan-oil-drop-lab/",
-      source: "https://github.com/analyticalchem/millikan-oil-drop-lab",
       desc: "Time oil drops falling and rising in a 3D Millikan apparatus to find the charge of the electron."
     },
     {
@@ -60,7 +55,6 @@
       topic: "Optical Spectroscopy",
       title: "Diffraction Grating Explorer",
       url: "https://instrumentalteaching.com/diffraction-grating-explorer/",
-      source: "https://github.com/analyticalchem/diffraction-grating-explorer",
       desc: "See where laser and white-light orders leave a grating, and turn it like a monochromator to select wavelengths."
     },
     {
@@ -71,7 +65,6 @@
       topic: "Op Amps · Two Parts",
       title: "Op Amp Demo",
       url: "https://instrumentalteaching.com/op-amp-basics/",
-      source: "https://github.com/analyticalchem/op-amp-basics",
       desc: "Learn how an op amp works with a water model, then build a DAC and ADCs from op amps."
     },
     {
@@ -81,7 +74,6 @@
       topic: "Music Theory",
       title: "Chord Progression Lab",
       url: "https://instrumentalteaching.com/chord-progression-lab/",
-      source: "https://github.com/analyticalchem/chord-progression-lab",
       desc: "Build chord progressions in any key and hear them on piano, with harmonic function and the circle of fifths."
     },
     {
@@ -91,7 +83,6 @@
       topic: "Low Vision",
       title: "Weather",
       url: "https://instrumentalteaching.com/weather/",
-      source: "https://github.com/analyticalchem/weather",
       desc: "Large, high-contrast weather with read-aloud for people with low vision."
     }
   ];

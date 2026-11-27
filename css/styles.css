@@ -245,8 +245,6 @@ main { display: grid; gap: 32px; }
   padding-top: 14px;
   border-top: 1px solid var(--grid);
 }
-/* Keeps the Source link clickable above the stretched title link. */
-.card-actions a { position: relative; z-index: 1; }
 
 /* ---------- Visuals (card graphics, decorative) ---------- */
 

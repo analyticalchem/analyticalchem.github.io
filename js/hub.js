@@ -66,12 +66,6 @@
       var open = el('span', 'btn primary', 'Open');
       open.setAttribute('aria-hidden', 'true');
       actions.append(open);
-      if (item.source) {
-        var src = el('a', 'btn ghost', 'Source');
-        src.href = item.source;
-        src.setAttribute('aria-label', item.title + ' source code on GitHub');
-        actions.append(src);
-      }
 
       card.append(h3, el('p', 'desc', item.desc), actions);
       grid.append(card);
