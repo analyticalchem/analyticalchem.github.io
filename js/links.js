@@ -14,7 +14,7 @@
       art: "unitcell",
       topic: "Solid State",
       title: "Unit Cell Explorer",
-      url: "https://analyticalchem.github.io/unit-cell-explorer/",
+      url: "https://instrumentalteaching.com/unit-cell-explorer/",
       source: "https://github.com/analyticalchem/unit-cell-explorer",
       desc: "Rotate simple, body-centered and face-centered cubic cells in 3D, build blocks, add bonds and split layers."
     },
@@ -23,7 +23,7 @@
       art: "titration",
       topic: "Acid–Base Equilibria",
       title: "Weak Titration Explorer",
-      url: "https://analyticalchem.github.io/weaktitration/",
+      url: "https://instrumentalteaching.com/weaktitration/",
       source: "https://github.com/analyticalchem/weaktitration",
       desc: "Drag along a titration curve to watch pH and species fractions change at each stage."
     },
@@ -32,7 +32,7 @@
       art: "interferometer",
       topic: "Infrared Spectroscopy",
       title: "FTIR Interferometer Explorer",
-      url: "https://analyticalchem.github.io/interferometer/",
+      url: "https://instrumentalteaching.com/interferometer/",
       source: "https://github.com/analyticalchem/interferometer",
       desc: "Move an FTIR's mirror to record an interferogram, then watch the Fourier transform build the spectrum."
     },
@@ -41,7 +41,7 @@
       art: "vandeemter",
       topic: "Liquid Chromatography",
       title: "Van Deemter Explorer",
-      url: "https://analyticalchem.github.io/van-deemter-explorer/",
+      url: "https://instrumentalteaching.com/van-deemter-explorer/",
       source: "https://github.com/analyticalchem/van-deemter-explorer",
       desc: "See how flow rate, temperature, particle size and mass transfer shape plate height in liquid chromatography."
     },
@@ -50,7 +50,7 @@
       art: "millikan",
       topic: "Electron Charge",
       title: "Millikan Oil Drop Lab",
-      url: "https://analyticalchem.github.io/millikan-oil-drop-lab/",
+      url: "https://instrumentalteaching.com/millikan-oil-drop-lab/",
       source: "https://github.com/analyticalchem/millikan-oil-drop-lab",
       desc: "Time oil drops falling and rising in a 3D Millikan apparatus to find the charge of the electron."
     },
@@ -59,18 +59,18 @@
       art: "grating",
       topic: "Optical Spectroscopy",
       title: "Diffraction Grating Explorer",
-      url: "https://analyticalchem.github.io/diffraction-grating-explorer/",
+      url: "https://instrumentalteaching.com/diffraction-grating-explorer/",
       source: "https://github.com/analyticalchem/diffraction-grating-explorer",
       desc: "See where laser and white-light orders leave a grating, and turn it like a monochromator to select wavelengths."
     },
     {
       // Two linked pages: this opens part 1, Op Amp Basics; its series links lead on to the
-      // DAC/ADC Builder (https://analyticalchem.github.io/dac-adc-builder/) and back.
+      // DAC/ADC Builder (https://instrumentalteaching.com/dac-adc-builder/) and back.
       group: "Electronics",
       art: "opampdemo",
       topic: "Op Amps · Two Parts",
       title: "Op Amp Demo",
-      url: "https://analyticalchem.github.io/op-amp-basics/",
+      url: "https://instrumentalteaching.com/op-amp-basics/",
       source: "https://github.com/analyticalchem/op-amp-basics",
       desc: "Learn how an op amp works with a water model, then build a DAC and ADCs from op amps."
     },
@@ -80,7 +80,7 @@
       art: "piano",
       topic: "Music Theory",
       title: "Chord Progression Lab",
-      url: "https://analyticalchem.github.io/chord-progression-lab/",
+      url: "https://instrumentalteaching.com/chord-progression-lab/",
       source: "https://github.com/analyticalchem/chord-progression-lab",
       desc: "Build chord progressions in any key and hear them on piano, with harmonic function and the circle of fifths."
     },
@@ -90,7 +90,7 @@
       art: "weather",
       topic: "Low Vision",
       title: "Weather",
-      url: "https://analyticalchem.github.io/weather/",
+      url: "https://instrumentalteaching.com/weather/",
       source: "https://github.com/analyticalchem/weather",
       desc: "Large, high-contrast weather with read-aloud for people with low vision."
     }
